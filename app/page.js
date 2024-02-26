@@ -32,7 +32,7 @@ function page() {
 
   return (
     <div className="h-screen w-screen bg-gradient-to-r from-[#000000] to-[#2f2f2f]">
- 
+
       <div className="h-[90px] justify-center items-center w-[100%] flex ">
         <div className="h-[50px] w-full flex justify-between items-center px-2 ">
           <div className="h-[55px] flex text-[#fff] items-center justify-center rounded-3xl ring-2 ring-white">
@@ -45,9 +45,9 @@ function page() {
             </div>
           </div>
           <div>
-            <div className="bg-white px-4 py-2 font-semibold rounded-full">
+            <a target="_blank" href="https://play.google.com/store/apps/details?id=com.grovyomain&hl=en_IN&gl=US" className="bg-white px-4 py-2 font-semibold rounded-full">
               Download
-            </div>
+            </a>
           </div>
         </div>
       </div>
