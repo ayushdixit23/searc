@@ -1,113 +1,134 @@
+"use client";
 import Image from "next/image";
+import React, { useState } from "react";
+import Logo from "./assets/Logo.png";
+import Search from "./assets/Search.png";
+import axios from "axios";
+import Link from "next/link";
 
-export default function Home() {
+function page() {
+  const [text, setText] = useState("");
+  const [data, setData] = useState([]);
+
+  const handleSearch = async (t) => {
+    setText(t);
+
+    try {
+      if (t) {
+        const res = await axios.post(
+          `https://back.grovyo.xyz/api/searchpros?query=${t}`
+        );
+        if (res?.data?.data?.success) {
+          const pros = res?.data?.data?.pros;
+          const dp = res?.data?.data?.dps;
+          const merge = pros?.map((p, i) => ({ p, dps: dp[i] }));
+          setData(merge);
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="h-screen w-screen bg-gradient-to-r from-[#000000] to-[#2f2f2f]">
+      {/* header */}
+      <div className="h-[90px] justify-center items-center w-[100%] flex ">
+        <div className="h-[50px] w-full flex justify-between items-center px-2 ">
+          <div className="h-[55px] flex text-[#fff] items-center justify-center rounded-3xl ring-2 ring-white">
+            <div className="h-[55px] w-[55px] ring-2 ring-[#fff] rounded-3xl">
+              <Image src={Logo} className="rounded-3xl" />
+            </div>
+            <div className="px-2 pr-4">
+              <div className="text-[18px] font-bold"> Grovyo</div>
+              <div className="text-[12px]"> @Grovyo</div>
+            </div>
+          </div>
+          <div>
+            <div className="bg-white px-4 py-2 font-semibold rounded-full">
+              Download
+            </div>
+          </div>
         </div>
       </div>
+      {/* main */}
+      <div className="h-[80%] w-full flex flex-col justify-center items-center">
+        <div className="w-[49%] flex-col sm:max-md:w-[70%] pn:max-sm:w-[90%] flex items-center justify-center mb-36">
+          <div className="lg:text-[37px] md:text-[32px] duration-75 sm:text-[27px] vs:text-[22px] pn:text-[17px] select-none text-center font-bold text-white">
+            Discover The Perfect Prosites With An Effortless Search And
+            Selection
+          </div>
+          <div className="flex w-[80%] pn:max-sm:w-[100%] mt-2 h-[50px] rounded-full justify-center bg-white">
+            <div className="w-[50px] h-[50px] flex justify-center items-center">
+              <Image src={Search} className="w-[25px] " />
+            </div>
+            <input
+              value={text}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="w-full rounded-r-full outline-none font-semibold "
+              placeholder="Search Prosite "
+            />
+          </div>
+        </div>
+        {/* Tag */}
+        {/* <div className="mt-4 w-[49%] flex text-white items-center">
+          <div className="font-semibold  select-none">Top Search:</div>
+          <div className="ring-2 p-2 flex text-[14px] m-2 ring-white rounded-full">
+            <div className="select-none">Best Community</div>
+            <Image src={Arrow} className="w-[20px]" />
+          </div>
+          <div className="ring-2 p-2 flex text-[14px] m-2 ring-white rounded-full">
+            <div className="select-none">Best Community</div>
+            <Image src={Arrow} className="w-[20px]" />
+          </div>
+          <div className="ring-2 p-2 flex text-[14px] m-2 ring-white rounded-full">
+            <div className="select-none">Best Community</div>
+            <Image src={Arrow} className="w-[20px]" />
+          </div>
+          <div className="ring-2 p-2 flex text-[14px] m-2 ring-white rounded-full">
+            <div className="select-none">Best Community</div>
+            <Image src={Arrow} className="w-[20px]" />
+          </div>
+        </div> */}
+        {/* Resent */}
+        <div className=" w-[49%] flex flex-col text-white justify-center">
+          <div className="font-semibold select-none">Resent Search:</div>
+          <div className="mt-1 flex space-x-2 overflow-hidden justify-center">
+            {data.map((d, i) => (
+              <Link
+                key={i}
+                href={`/${d?.p._id}`}
+                className="flex flex-col items-center justify-center bg-[#121212] ring-1 rounded-2xl p-3"
+              >
+                <img
+                  className="h-[50px] w-[50px] rounded-2xl bg-slate-50"
+                  src={d?.dps}
+                />
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+                <div className="font-semibold mt-1 ">{d?.p.fullname}</div>
+                <div className="text-[12px]">{d?.p.username}</div>
+              </Link>
+            ))}
+            {/* <div className="flex flex-col items-center justify-center bg-[#121212] ring-1 rounded-2xl p-3">
+              <div className="h-[50px] w-[50px] rounded-2xl bg-slate-50"></div>
+              <div className="font-semibold mt-1 ">User Name</div>
+              <div className="text-[12px]">@User_Name</div>
+            </div>
+            <div className="flex flex-col items-center justify-center bg-[#121212] ring-1 rounded-2xl p-3">
+              <div className="h-[50px] w-[50px] rounded-2xl bg-slate-50"></div>
+              <div className="font-semibold mt-1 ">User Name</div>
+              <div className="text-[12px]">@User_Name</div>
+            </div>
+            <div className="flex flex-col items-center justify-center bg-[#121212] ring-1 rounded-2xl p-3">
+              <div className="h-[50px] w-[50px] rounded-2xl bg-slate-50"></div>
+              <div className="font-semibold mt-1 ">User Name</div>
+              <div className="text-[12px]">@User_Name</div>
+            </div> */}
+          </div>
+        </div>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
 }
+
+export default page;
