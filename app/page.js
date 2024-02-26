@@ -32,7 +32,7 @@ function page() {
 
   return (
     <div className="h-screen w-screen bg-gradient-to-r from-[#000000] to-[#2f2f2f]">
-      {/* header */}
+ 
       <div className="h-[90px] justify-center items-center w-[100%] flex ">
         <div className="h-[50px] w-full flex justify-between items-center px-2 ">
           <div className="h-[55px] flex text-[#fff] items-center justify-center rounded-3xl ring-2 ring-white">
