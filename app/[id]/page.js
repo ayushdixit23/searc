@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "../assets/Logo.png";
 
 // import box from "../assets/Images/Box.png";
@@ -15,9 +15,6 @@ function page({ params }) {
   const [coms, setComs] = useState([]);
   const [bio, setBio] = useState();
   const [product, setProduct] = useState([]);
-  const [click, setClick] = useState();
-
-  const [data, setData] = useState();
 
   const fetchData = async () => {
     try {
@@ -32,7 +29,6 @@ function page({ params }) {
       console.log(error);
     }
   };
-  console.log(bio);
   useEffect(() => {
     fetchData();
   }, [params.id]);
@@ -42,7 +38,7 @@ function page({ params }) {
       {/* header */}
       <div className=" justify-center items-center w-[100%] flex ">
         <div className="  w-full flex justify-between items-center px-2 ">
-          <div className="h-[55px] bg-black top-3 absolute flex text-[#fff] items-center justify-center rounded-3xl ring-2 ring-white">
+          <div className={`h-[55px] bg-black top-3 absolute flex text-[#fff] items-center justify-center rounded-3xl ring-2 ring-white`}>
             <div className="h-[55px] w-[55px] ring-2 ring-[#fff] rounded-3xl">
               <img
                 src={`${bio?.dp}`}
@@ -52,7 +48,7 @@ function page({ params }) {
             </div>
             <div className="px-2 pr-4">
               <div className="text-[18px] font-bold"> {bio?.fullname}</div>
-              <div className="text-[12px]">@{bio?.username}</div>
+              <div className=" text-[12px]">@{bio?.username}</div>
             </div>
           </div>
           {/* <div>
@@ -64,8 +60,8 @@ function page({ params }) {
       </div>
       {/* main */}
 
-      <div className="h-[95%] bg-red-400 w-[98%] rounded-2xl scrollbar-hide overflow-auto">
-        <div className="bg-white text-black overflow-auto scrollbar-hide w-full h-full">
+      <div className="h-[95%] bg-red-400 w-[98%] rounded-2xl no-scrollbar overflow-auto">
+        <div className="bg-white text-black overflow-auto no-scrollbar w-full h-full">
           {/* Header */}
           <div>
             {bio?.temp?.length > 0 ? (
