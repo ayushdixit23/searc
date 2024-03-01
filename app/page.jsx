@@ -97,11 +97,9 @@ function page() {
         const getids = localStorage.getItem("ids");
         if (getids) {
           const parseIds = JSON.parse(getids) || [];
-   
-
           if (parseIds.length > 0) {
             try {
-              const res = await axios.post("http://localhost:7190/api/recentSearch", parseIds);
+              const res = await axios.post(`https://back.grovyo.xyz/api/recentSearch`, parseIds);
               setRecentSearch(res.data.users);
             } catch (error) {
               console.error("Error fetching data:", error);
@@ -196,7 +194,7 @@ function page() {
       </div>
       {/* main */}
       <div className="h-[80%] w-full flex flex-col justify-center items-center">
-        <div className={`w-[49%] flex-col sm:max-md:w-[70%] pn:max-sm:w-[90%] ${recentSearch.length > 0 ? "md:mt-32 pn:max-pp:mt-5" : "md:mb-36 pn:max-pp:mb-5"}  flex items-center justify-center`}>
+        <div className={`w-[49%] flex-col sm:max-md:w-[70%] pn:max-sm:w-[90%] ${recentSearch.length > 0 ? "md:mt-32 pn:max-pp:mt-10" : "md:mb-36   pn:max-pp:mt-14"}  flex items-center justify-center`}>
           <div className={`lg:text-[37px] md:text-[32px] duration-75 sm:text-[27px] vs:text-[22px] pn:text-[17px] select-none text-center font-bold text-white`}>
             Discover The Perfect Prosites With An Effortless Search And
             Selection
