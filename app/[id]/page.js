@@ -11,7 +11,6 @@ import axios from "axios";
 import Bio from "../component/Bio";
 import Community from "../component/Community";
 import Store from "../component/Store";
-import Link from "next/link";
 function page({ params }) {
   const [coms, setComs] = useState([]);
   const [bio, setBio] = useState();
@@ -27,7 +26,7 @@ function page({ params }) {
         setBio(res.data.data.userDetails);
         setComs(res.data.data.communitywithDps);
         setProduct(res.data.data.productsWithDps);
-      } else if (!res.data.success && res.data.message === "User Not Found") {
+      } else {
         setUser(false)
       }
     } catch (error) {
