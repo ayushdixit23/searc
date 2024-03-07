@@ -16,7 +16,7 @@ function page({ params }) {
   const [coms, setComs] = useState([]);
   const [bio, setBio] = useState();
   const [product, setProduct] = useState([]);
-  const [user, setUser] = useState(false)
+  const [user, setUser] = useState(true)
 
   const fetchData = async () => {
     try {
