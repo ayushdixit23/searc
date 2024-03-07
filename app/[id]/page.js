@@ -11,20 +11,25 @@ import axios from "axios";
 import Bio from "../component/Bio";
 import Community from "../component/Community";
 import Store from "../component/Store";
+import Link from "next/link";
 function page({ params }) {
   const [coms, setComs] = useState([]);
   const [bio, setBio] = useState();
   const [product, setProduct] = useState([]);
+  const [user, setUser] = useState(false)
 
   const fetchData = async () => {
     try {
       const res = await axios.get(
         `https://back.grovyo.xyz/api/getprositedetails/${params.id}`
       );
-
-      setBio(res.data.data.userDetails);
-      setComs(res.data.data.communitywithDps);
-      setProduct(res.data.data.productsWithDps);
+      if (res.data.success) {
+        setBio(res.data.data.userDetails);
+        setComs(res.data.data.communitywithDps);
+        setProduct(res.data.data.productsWithDps);
+      } else if (!res.data.success && res.data.message === "User Not Found") {
+        setUser(false)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -32,6 +37,38 @@ function page({ params }) {
   useEffect(() => {
     fetchData();
   }, [params.id]);
+
+  if (!user) {
+    return (
+      <>
+        <section className="relative z-10 flex select-none flex-col justify-center w-full  items-center bg-black h-screen py-[120px]">
+          <div className="container w-full" >
+            <div className="w-full flex">
+              <div className="w-full px-4">
+                <div className="w-full text-center">
+                  <h2 className="mb-2 text-[50px] font-bold leading-none text-white sm:text-[80px] md:text-[100px]">
+                    404
+                  </h2>
+                  <h4 className="mb-3 text-[22px] font-semibold leading-tight text-white">
+                    Oops! That page can't be found
+                  </h4>
+                  <p className="mb-8 text-lg text-white">
+                    The page you are looking for it maybe deleted
+                  </p>
+                  <a
+                    href="/"
+                    className="inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-blue-400 hover:text-primary"
+                  >
+                    Go To Home
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </>
+    )
+  }
 
   return (
     <div className="h-screen w-screen bg-gradient-to-r from-[#000000] to-[#2f2f2f] flex flex-col items-center justify-center">
