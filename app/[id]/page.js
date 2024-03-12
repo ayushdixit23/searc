@@ -13,22 +13,21 @@ import Community from "../component/Community";
 import Store from "../component/Store";
 function page({ params }) {
   const [coms, setComs] = useState([]);
-  const [bio, setBio] = useState("");
+  const [bio, setBio] = useState();
   const [product, setProduct] = useState([]);
   const [user, setUser] = useState(true);
 
   const fetchData = async () => {
     try {
       const res = await axios.get(
-        ` https://back.grovyo.xyz/api/getprositedetails/${params.id}`
+        `    https://back.grovyo.xyz/api/getprositedetails/${params.id}`
       );
       console.log(res.data);
       setBio(res.data.data.userDetails);
       setComs(res.data.data.communitywithDps);
       setProduct(res.data.data.productsWithDps);
       console.log(bio);
-      if (res.data.success) {
-      } else {
+      if (!res.data.success) {
         setUser(false);
       }
     } catch (error) {
@@ -101,16 +100,12 @@ function page({ params }) {
           {/* Header */}
           <div>
             {bio?.temp?.length > 0 ? (
-              <>
-                <div
-                  className="w-full h-[80vh] pn:max-sm:hidden bg-green-700"
-                  dangerouslySetInnerHTML={{ __html: bio?.temp }}
-                ></div>
-                <div
-                  className="w-full h-[80vh] sm:hidden bg-green-700"
-                  dangerouslySetInnerHTML={{ __html: bio?.temp1 }}
-                ></div>
-              </>
+              <div
+                className="w-full h-[80vh] bg-green-700"
+                dangerouslySetInnerHTML={{ __html: bio?.temp }}
+              >
+                {console.log(bio.temp1)}
+              </div>
             ) : (
               <div className="flex pn:max-md:flex-col-reverse items-center py-4 w-[100%] h-[60%]">
                 {/* <div className="flex  flex-col md:w-[50%] h-[100%] justify-center items-center">
@@ -139,11 +134,6 @@ function page({ params }) {
                   <div className="h-[100%] w-[100%] flex justify-center flex-col overflow-hidden items-center ">
                     <div className="h-[100%] w-[100%] bg-bggg bg-cover mt-[0%] bg-center"></div>
                     <div className="h-[100px] w-[100px] flex flex-col justify-center items-center -mt-6">
-                      {/* <img
-                        src={${bio?.dp}}
-                        alt="dp"
-                        className="rounded-3xl h-[55px] ring-2 ring-white w-[55px] "
-                      /> */}
                       <div className="h-[100px] flex justify-center items-center flex-col w-[150px]">
                         <div className="text-[18px] font-bold">
                           {bio?.fullname}
@@ -173,7 +163,10 @@ function page({ params }) {
 
             {/* About section */}
             <div
-             
+              data-aos-delay="50"
+              data-aos-duration="1500"
+              data-aos-easing="ease-in-out"
+              data-aos="fade-up"
             >
               <Bio bio={bio} />
             </div>
@@ -185,7 +178,9 @@ function page({ params }) {
               data-aos-easing="ease-in-out"
               data-aos="fade-up"
             >
-              {coms.length > 0 ? <Community coms={coms} /> : null}
+              {coms.length > 0 ? (
+                <Community coms={coms} isCommunity={bio.isCommunity} />
+              ) : null}
             </div>
 
             <div className=" flex justify-center py-6 items-center px-4">
@@ -195,7 +190,7 @@ function page({ params }) {
             {/* Store section */}
             {product.length > 0 ? (
               <div>
-                <Store product={product} />
+                <Store product={product} isStore={bio.isStore} />
               </div>
             ) : (
               <div className="flex flex-col bg-white py-2 w-[100%] h-[70%] justify-evenly items-center space-y-2">
