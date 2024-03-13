@@ -25,6 +25,9 @@ const page = () => {
 						cannot guarantee that cancellation requests will be accommodated.
 					</div>
 					<div>
+						No. Of days taken to process the refund to customer account is 5-7 working days.
+					</div>
+					<div>
 						Cancellation Process: To cancel an order, please contact our
 						customer support team at grovyoinc@gmail.com. Please provide your
 						order details and reasons for cancellation.

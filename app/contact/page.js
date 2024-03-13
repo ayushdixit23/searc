@@ -56,7 +56,12 @@ function Body() {
           </iframe>
         </div>
         <div className="flex flex-col items-center text-center justify-center  py-5">
-          <div className="text-lg">Contact : grovyoinc@gmail.com</div>
+          <div className="text-lg">Contact</div>
+          <div className="flex flex-col gap-1">
+            <div>Phone Number: +917310217959</div>
+            <div>Email: grovyoinc@gmail.com</div>
+            <div>Address: 37A Rampuram ,Shyam Nagar</div>
+          </div>
           <div className="flex justify-center space-x-2 my-5">
             {/* <div>
               <Image src={Facebook} alt="facebook" width={35} height={30} />

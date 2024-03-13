@@ -30,6 +30,7 @@ const page = () => {
 						information and to update such information to keep it accurate,
 						current, and complete.
 					</div>
+					<div> No. Of days taken to process the refund to customer account is 5-7 working days.</div>
 					<h1 className="text-2xl font-semibold py-5">
 						User Content and Custom Ads
 					</h1>
